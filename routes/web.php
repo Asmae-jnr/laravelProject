@@ -10,6 +10,7 @@ Route::get('/', [HomeController::class, 'index']);
 // Redirige l'utilisateur connecté en fonction de son rôle (par exemple : admin ou utilisateur standard) lorsqu'il visite "/home".
 Route::get('/home', [HomeController::class, 'redirect']);
 
+// Middleware pour sécuriser l'accès au tableau de bord
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -20,14 +21,19 @@ Route::middleware([
     })->name('dashboard');
 });
 
+// Création d'un rendez-vous
 Route::post('/appointement', [HomeController::class, 'appointement']);
 
+// Consultation des rendez-vous de l'utilisateur
 Route::get('/myappointment', [HomeController::class, 'myappointment']);
 
+// Annulation d'un rendez-vous
 Route::get('/cancel_appoint/{id}', [HomeController::class, 'cancel_appoint']);
 
+// Accès à la liste des rendez-vous par l'administrateur
 Route::get('/showappointment', [AdminController::class, 'showappointment']); 
 
+// Gestion des utilisateurs par l'administrateur
 Route::get('/showusers', [AdminController::class, 'showusers']); 
 
 Route::get('/approved/{id}', [AdminController::class, 'approved']);
