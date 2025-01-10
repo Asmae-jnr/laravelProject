@@ -9,64 +9,57 @@ use App\Models\Appointement;
 
 class HomeController extends Controller
 {
-    public function redirect()
-    {
-        // Vérifie si l'utilisateur est connecté
-        if (Auth::id()) {
-            // Vérifie si le type d'utilisateur (usertype) est égal à '0' (utilisateur standard)
-            if (Auth::user()->usertype == '0') {
-                // Si c'est un utilisateur standard, affiche la vue 'user.home'
-                return view('user.home');
+    // Redirige les utilisateurs en fonction de leur rôle (admin ou utilisateur standard)
+    public function redirect() {
+        if (Auth::id()) { // Vérifie si l'utilisateur est connecté
+            if (Auth::user()->usertype == '0') { // Vérifie si c'est un utilisateur standard
+                return view('user.home'); // Affiche la vue pour l'utilisateur standard
             } else {
-                // Sinon, affiche la vue 'admin.home' (pour les administrateurs)
-                return view('admin.home');
+                return view('admin.home'); // Affiche la vue pour l'administrateur
             }
         } else {
-            // Si l'utilisateur n'est pas connecté, le renvoie à la page précédente
-            return redirect()->back();
+            return redirect()->back(); // Redirige vers la page précédente si l'utilisateur n'est pas connecté
         }
     }
-    
-    
-    public function index(){
-        return view('user.home');
+
+    // Affiche la page d'accueil de l'utilisateur
+    public function index() {
+        return view('user.home'); // Retourne la vue de l'utilisateur
     }
 
-    public function appointement(Request $request){
-        $data = new appointement;
-        $data->name = $request->name;
-        $data->email = $request->email;
-        $data->date = $request->date;
-        $data->time = $request->time;
-        $data->message = $request->message;
-        $data->status = 'In progress';
-        if(Auth::id()){
-            $data->user_id=Auth::user()->id;
+    // Enregistre une demande de rendez-vous
+    public function appointement(Request $request) {
+        $data = new appointement; // Crée une nouvelle instance de rendez-vous
+        $data->name = $request->name; // Associe le nom
+        $data->email = $request->email; // Associe l'email
+        $data->date = $request->date; // Associe la date
+        $data->time = $request->time; // Associe l'heure
+        $data->message = $request->message; // Associe le message
+        $data->status = 'In progress'; // Définit le statut initial
+
+        if (Auth::id()) {
+            $data->user_id = Auth::user()->id; // Associe l'utilisateur connecté
         }
 
-        $data->save();
-
-        return redirect()->back()->with('message','Appointement request Successful . We will contact you soon');
+        $data->save(); // Sauvegarde les informations
+        return redirect()->back()->with('message', 'Appointment request successful. We will contact you soon'); // Retourne un message de confirmation
     }
 
-    public function myappointment(){
-
-	    if(Auth::id()){
-
-            $userid=Auth::user()->id;
-            $appoint=appointement::where('user_id',$userid)->get();
-
-	    	return view('user.my_appointment',compact('appoint'));
-	    }
-	
-	    else{
-	    	return redirect()->back();
-	    }
+    // Affiche les rendez-vous d'un utilisateur connecté
+    public function myappointment() {
+        if (Auth::id()) { // Vérifie si l'utilisateur est connecté
+            $userid = Auth::user()->id; // Récupère l'ID de l'utilisateur
+            $appoint = appointement::where('user_id', $userid)->get(); // Récupère les rendez-vous de l'utilisateur
+            return view('user.my_appointment', compact('appoint')); // Transmet les données à la vue
+        } else {
+            return redirect()->back(); // Redirige vers la page précédente si l'utilisateur n'est pas connecté
+        }
     }
 
-    public function cancel_appoint($id){
-        $data=appointement::find($id);
-        $data->delete();
-        return redirect()->back();
+    // Annule un rendez-vous spécifique
+    public function cancel_appoint($id) {
+        $data = appointement::find($id); // Trouve le rendez-vous par son ID
+        $data->delete(); // Supprime le rendez-vous
+        return redirect()->back(); // Retourne à la page précédente
     }
 }
