@@ -31,6 +31,62 @@
       <link rel="stylesheet" href="css/owl.carousel.min.css">
       <link rel="stylesheet" href="css/owl.theme.default.min.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
+               <!-- Footer CSS -->
+               <style>
+                  .footer_section {
+                     background-color: #2b2278;
+                     color: white;
+                     padding: 100px 0;
+                     margin-top: 60px; 
+                  }
+         
+                  .footer_section .location_main {
+                     display: flex;
+                     justify-content: space-around;
+                     flex-wrap: wrap;
+                     align-items: center;
+                  }
+         
+                  .footer_section .call_text {
+                     display: flex;
+                     align-items: center;
+                     margin-bottom: 10px;
+                  }
+         
+                  .footer_section .call_text img {
+                     margin-right: 10px;
+                  }
+         
+                  .footer_section .call_text a {
+                     color: white;
+                     text-decoration: none;
+                     font-size: 16px;
+                  }
+         
+                  .footer_section .social_icons {
+                     margin-top: 20px;
+                     text-align: center;
+                  }
+         
+                  .footer_section .social_icons a {
+                     margin: 0 10px;
+                     font-size: 24px;
+                     color: white;
+                     text-decoration: none;
+                  }
+         
+                  .footer_section .social_icons a:hover {
+                     color: #f1c40f; /* Or any color you prefer for hover effect */
+                  }
+   
+                  .logo {
+               width: 250px; /* Taille très petite pour le logo */
+               height: auto;
+               position: absolute;
+               top: 20px; /* Ajuster la position verticale si nécessaire */
+               left: 20px; /* Ajuster la position horizontale */
+            }
+               </style>
    </head>
    <body>
       <!-- header section start -->
@@ -76,42 +132,43 @@
 
       <!-- Main Content -->
       <div class="container mt-5">
-        <h2 class="text-center">My Appointments</h2>
-        <table class="table table-bordered mt-4">
-           <thead>
-              <tr>
-                 <th>Id</th>
-                 <th>Name</th>
-                 <th>Email</th>
-                 <th>Date</th>
-                 <th>Time</th>
-                 <th>Message</th>
-                 <th>Status</th>
-                 <th>User ID</th>
-                 <th>Created At</th>
-                 <th>Updated At</th>
-                 <th>Cancel Appointment</th>
-              </tr>
-           </thead>
-           <tbody>
-            @foreach($appoint as $appointment) <!-- Utiliser $appointment ici, pas $appoint -->
-               <tr align="center">
-                  <td>{{ $appointment->id }}</td>
-                  <td>{{ $appointment->name }}</td>
-                  <td>{{ $appointment->email }}</td>
-                  <td>{{ $appointment->date }}</td>
-                  <td>{{ $appointment->time }}</td>
-                  <td>{{ $appointment->message }}</td>
-                  <td>{{ $appointment->status }}</td>
-                  <td>{{ $appointment->user_id }}</td>
-                  <td>{{ $appointment->created_at }}</td>
-                  <td>{{ $appointment->updated_at }}</td>
-                  <td><a class="bt btn-danger" onclick="return confirm('are you sure to delete this')" href="{{url('cancel_appoint',$appointment->id)}}">Cancel</a></td>
+         <h2 class="text-center">My Appointments</h2>
+         <table class="table table-bordered mt-4" style="margin-bottom: 500px;">
+            <thead>
+               <tr>
+                  <th>Id</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th>Message</th>
+                  <th>Status</th>
+                  <th>User ID</th>
+                  <th>Created At</th>
+                  <th>Updated At</th>
+                  <th>Cancel Appointment</th>
                </tr>
-            @endforeach
-         </tbody>         
-        </table>
-     </div>
+            </thead>
+            <tbody>
+               @foreach($appoint as $appointment)
+                  <tr align="center">
+                     <td>{{ $appointment->id }}</td>
+                     <td>{{ $appointment->name }}</td>
+                     <td>{{ $appointment->email }}</td>
+                     <td>{{ $appointment->date }}</td>
+                     <td>{{ $appointment->time }}</td>
+                     <td>{{ $appointment->message }}</td>
+                     <td>{{ $appointment->status }}</td>
+                     <td>{{ $appointment->user_id }}</td>
+                     <td>{{ $appointment->created_at }}</td>
+                     <td>{{ $appointment->updated_at }}</td>
+                     <td><a class="bt btn-danger" onclick="return confirm('are you sure to delete this')" href="{{url('cancel_appoint',$appointment->id)}}">Cancel</a></td>
+                  </tr>
+               @endforeach
+            </tbody>
+         </table>
+      </div>
+      
 
       <!-- Footer Section -->
       <footer class="footer_section layout_padding mt-5">
